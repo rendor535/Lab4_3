@@ -1,0 +1,74 @@
+/* Kolory bazowe */
+:root {
+    --bg: #0e0b14;
+    --bg2: #16111f;
+    --violet: #7a4bd4;
+    --violet-light: #a887ff;
+    --text: #e4e2ee;
+    --text-dim: #b6b3c7;
+}
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Tło i layout */
+body {
+    background: var(--bg);
+    color: var(--text);
+    padding: 30px;
+}
+
+/* Przyciski */
+button {
+    background: var(--violet);
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    transition: background 0.15s ease, transform 0.1s ease;
+}
+
+button:hover {
+    background: var(--violet-light);
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+/* Listy */
+ul {
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+ul li {
+    padding: 5px 0;
+    color: var(--text-dim);
+}
+
+/* Kontener z żartem */
+#jokeBox {
+    margin-top: 25px;
+    padding: 20px;
+    background: var(--bg2);
+    border: 1px solid var(--violet);
+    border-radius: 8px;
+}
+
+#jokeBox p {
+    margin-bottom: 10px;
+}
+
+strong {
+    color: var(--violet-light);
+}

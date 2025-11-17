@@ -1,13 +1,34 @@
 <!DOCTYPE html>
  <html>
    <head>
+    <link rel="stylesheet" href="style.css">
+     <title>JokeBook</title>
      <meta charset="utf-8">
      <meta name="viewport" content="width=device-width">
      <link rel="stylesheet" href="style.css"/>
-     <title>repl.it</title>   
+     <title>sigm.aa</title>   
    </head>
-   <body>
-  
-     <script src="script.js"></script>
-   </body>
+  <body>
+    <h1>Jokebook FE</h1>
+
+    <button id="btnCategories">Pobierz kategorie</button>
+
+    <label for="categorySelect">Kategoria:</label>
+    <select id="categorySelect">
+      <option value="">-- wybierz kategorię --</option>
+    </select>
+
+    <button id="btnRandomJoke">Losowy żart z wybranej kategorii</button>
+
+    <h2>Kategorie:</h2>
+    <ul id="categoriesList"></ul>
+
+    <h2>Żart:</h2>
+    <div id="jokeBox">
+      <p><strong>Kategoria:</strong> <span id="jokeCategory">-</span></p>
+      <p><strong>Joke:</strong> <span id="jokeText">-</span></p>
+      <p><strong>Response:</strong> <span id="jokeResponse">-</span></p>
+    </div>
+    <script src="script.js" defer></script>
+  </body>
  </html> 

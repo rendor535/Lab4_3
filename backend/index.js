@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const cors = require('cors'); 
 const app = express();
 
 let categories = ['funnyJoke', 'lameJoke'];
@@ -35,6 +36,8 @@ let lameJoke = [
     'response': 'jaki przerembul bul bul bul'
   }
 ];
+
+app.use(cors());   
 
 app.get('/jokebook/categories', (req, res) => {
   res.json(categories);
