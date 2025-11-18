@@ -15,6 +15,9 @@ const addJokeInput     = document.getElementById('addJoke');
 const addResponseInput = document.getElementById('addResponse');
 const addStatusEl      = document.getElementById('addStatus');
 
+const btnStats = document.getElementById('btnStats');
+const statsTableBody = document.querySelector('#statsTable tbody');
+
 let categories = [];
 
 btnCategories.addEventListener('click', async () => {
@@ -135,3 +138,37 @@ if (addForm) {
     }
   });
 }
+
+
+
+btnStats.addEventListener('click', async () => {
+  try {
+    const res = await fetch(`${API_BASE}/jokebook/stats`);
+    if (!res.ok) {
+      console.error('HTTP error:', res.status);
+      return;
+    }
+
+    const stats = await res.json();
+
+    statsTableBody.innerHTML = '';
+
+    Object.entries(stats).forEach(([category, count]) => {
+      const tr = document.createElement('tr');
+
+      const tdCategory = document.createElement('td');
+      tdCategory.textContent = category;
+
+      const tdCount = document.createElement('td');
+      tdCount.textContent = count;
+
+      tr.appendChild(tdCategory);
+      tr.appendChild(tdCount);
+
+      statsTableBody.appendChild(tr);
+    });
+
+  } catch (err) {
+    console.error('Error fetching stats:', err);
+  }
+});

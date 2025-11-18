@@ -53,6 +53,27 @@
       <p id="addStatus"></p>
     </form>
 
+    <button id="btnStats">Pokaż statystyki</button>
+    <h2>Statystyki:</h2>
+    <table id="statsTable">
+      <thead>
+        <tr>
+          <th>Kategoria</th>
+          <th>Liczba żartów</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
     <script src="script.js" defer></script>
+
+    <h2>Wyszukaj żarty</h2>
+    <div id="searchBox">
+      <input type="text" id="searchInput" placeholder="Słowo kluczowe">
+      <button id="btnSearch">Szukaj</button>
+    </div>
+
+    <p id="searchMessage"></p>
+    <ul id="searchResults"></ul>
+
   </body>
 </html>
