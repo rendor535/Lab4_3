@@ -1,7 +1,6 @@
 'use strict';
 
 const express = require('express');
-const cors = require('cors'); 
 const app = express();
 
 let categories = ['funnyJoke', 'lameJoke'];
@@ -37,8 +36,6 @@ let lameJoke = [
   }
 ];
 
-app.use(cors());   
-
 app.get('/jokebook/categories', (req, res) => {
   res.json(categories);
 });
@@ -55,6 +52,62 @@ app.get('/jokebook/joke/:category', (req, res) => {
 
   res.json(random);
 });
+
+app.post('/jokebook/joke/:category', (req, res) => {
+  const category = req.params.category;
+  const body = req.body;
+
+  if (!body || typeof body.joke !== 'string' || typeof body.response !== 'string') {
+    return res.status(400).json({ error: 'Invalid input. Use string' });
+  }
+
+  if (!jokebook[category]) {
+    return res.status(404).json({ error: `no jokes for category ${category}` });
+  }
+
+  jokebook[category].push({
+    joke: body.joke,
+    response: body.response
+  });
+
+  return res.json({ status: 'ok' });
+});
+
+app.get('/jokebook/stats', (req, res) => {
+  res.json({
+    funnyJoke: funnyJoke.length,
+    lameJoke: lameJoke.length
+  });
+});
+
+app.get('/jokebook/search', (req, res) => {
+  const word = req.query.word;
+  if (!word || typeof word !== 'string') {
+    return res.json([]);
+  }
+  const needle = word.toLowerCase();
+  const results = [];
+
+  const searchCategory = (categoryName, arr) => {
+    for (const j of arr) {
+      const jokeText = (j.joke || '').toLowerCase();
+      const respText = (j.response || '').toLowerCase();
+      if (jokeText.includes(needle) || respText.includes(needle)) {
+        results.push({
+          category: categoryName,
+          joke: j.joke,
+          response: j.response
+        });
+      }
+    }
+  };
+
+  searchCategory('funnyJoke', funnyJoke);
+  searchCategory('lameJoke', lameJoke);
+
+  return res.json(results);
+});
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
