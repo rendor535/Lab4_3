@@ -18,6 +18,11 @@ const addStatusEl      = document.getElementById('addStatus');
 const btnStats = document.getElementById('btnStats');
 const statsTableBody = document.querySelector('#statsTable tbody');
 
+const btnSearch        = document.getElementById('btnSearch');
+const searchInput      = document.getElementById('searchInput');
+const searchResultsEl  = document.getElementById('searchResults');
+const searchMessageEl  = document.getElementById('searchMessage');
+
 let categories = [];
 
 btnCategories.addEventListener('click', async () => {
@@ -172,3 +177,51 @@ btnStats.addEventListener('click', async () => {
     console.error('Error fetching stats:', err);
   }
 });
+
+const runSearch = async () => {
+  const word = searchInput.value.trim();
+
+  searchMessageEl.textContent = '';
+  searchResultsEl.innerHTML = '';
+
+  if (!word) {
+    searchMessageEl.textContent = 'Podaj słowo do wyszukania.';
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/jokebook/search?word=${encodeURIComponent(word)}`);
+    if (!res.ok) {
+      console.error('HTTP error przy search:', res.status);
+      searchMessageEl.textContent = 'Błąd podczas wyszukiwania.';
+      return;
+    }
+
+    const results = await res.json();
+
+    if (!Array.isArray(results) || results.length === 0) {
+      searchMessageEl.textContent = 'Brak żartów pasujących do wyszukiwania.';
+      return;
+    }
+
+    results.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = `[${item.category}] ${item.joke} — ${item.response}`;
+      searchResultsEl.appendChild(li);
+    });
+
+  } catch (err) {
+    console.error('Error fetching search results:', err);
+    searchMessageEl.textContent = 'Błąd sieci podczas wyszukiwania.';
+  }
+};
+
+btnSearch.addEventListener('click', runSearch);
+
+// Enter w inpucie
+searchInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    runSearch();
+  }
+});
+

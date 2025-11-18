@@ -137,3 +137,66 @@ strong {
 .status-error {
     color: var(--error);
 }
+
+#statsTable {
+    margin-top: 20px;
+    width: 300px;
+    border-collapse: collapse;
+    background: var(--bg2);
+    border: 1px solid var(--violet);
+    color: var(--text);
+}
+
+#statsTable th, #statsTable td {
+    padding: 10px;
+    border: 1px solid var(--violet);
+}
+
+#statsTable th {
+    background: #140f22;
+    color: var(--violet-light);
+}
+
+#statsTable td {
+    color: var(--text-dim);
+}
+
+#searchBox {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#searchInput {
+    flex: 1;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #2a2338;
+    background: #140f22;
+    color: var(--text);
+    outline: none;
+    font-size: 14px;
+}
+
+#searchInput:focus {
+    border-color: var(--violet);
+}
+
+#searchMessage {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: var(--text-dim);
+    font-size: 14px;
+}
+
+#searchResults {
+    margin-top: 5px;
+    padding-left: 20px;
+}
+
+#searchResults li {
+    padding: 4px 0;
+    color: var(--text-dim);
+}
