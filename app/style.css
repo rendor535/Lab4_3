@@ -6,6 +6,8 @@
     --violet-light: #a887ff;
     --text: #e4e2ee;
     --text-dim: #b6b3c7;
+    --error: #ff6b6b;
+    --ok: #4caf50;
 }
 
 /* Reset */
@@ -21,6 +23,16 @@ body {
     background: var(--bg);
     color: var(--text);
     padding: 30px;
+}
+
+/* Nagłówki */
+h1 {
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin-top: 25px;
+    margin-bottom: 10px;
 }
 
 /* Przyciski */
@@ -58,7 +70,7 @@ ul li {
 
 /* Kontener z żartem */
 #jokeBox {
-    margin-top: 25px;
+    margin-top: 10px;
     padding: 20px;
     background: var(--bg2);
     border: 1px solid var(--violet);
@@ -71,4 +83,57 @@ ul li {
 
 strong {
     color: var(--violet-light);
+}
+
+/* Formularz dodawania żartu */
+#addForm {
+    margin-top: 15px;
+    padding: 20px;
+    background: var(--bg2);
+    border-radius: 8px;
+    border: 1px solid var(--violet);
+    max-width: 500px;
+}
+
+.form-row {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-row label {
+    margin-bottom: 5px;
+    color: var(--text-dim);
+    font-size: 14px;
+}
+
+.form-row input,
+.form-row select {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #2a2338;
+    background: #140f22;
+    color: var(--text);
+    outline: none;
+    font-size: 14px;
+}
+
+.form-row input:focus,
+.form-row select:focus {
+    border-color: var(--violet);
+}
+
+/* Status pod formularzem */
+#addStatus {
+    margin-top: 5px;
+    font-size: 14px;
+    min-height: 18px;
+}
+
+.status-ok {
+    color: var(--ok);
+}
+
+.status-error {
+    color: var(--error);
 }

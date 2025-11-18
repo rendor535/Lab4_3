@@ -2,6 +2,7 @@
 
 const express = require('express');
 const app = express();
+const cors = require('cors');
 
 let categories = ['funnyJoke', 'lameJoke'];
 
@@ -35,6 +36,11 @@ let lameJoke = [
     'response': 'jaki przerembul bul bul bul'
   }
 ];
+app.use(cors({
+  origin: 'http://localhost:8080'
+}));
+
+app.use(express.json());
 
 app.get('/jokebook/categories', (req, res) => {
   res.json(categories);
@@ -61,17 +67,26 @@ app.post('/jokebook/joke/:category', (req, res) => {
     return res.status(400).json({ error: 'Invalid input. Use string' });
   }
 
-  if (!jokebook[category]) {
+  let targetArray = null;
+
+  if (category === 'funnyJoke') {
+    targetArray = funnyJoke;
+  } else if (category === 'lameJoke') {
+    targetArray = lameJoke;
+  } else {
     return res.status(404).json({ error: `no jokes for category ${category}` });
   }
 
-  jokebook[category].push({
+  const newJoke = {
     joke: body.joke,
     response: body.response
-  });
+  };
 
-  return res.json({ status: 'ok' });
+  targetArray.push(newJoke);
+
+  return res.status(201).json({ status: 'ok', joke: newJoke });
 });
+
 
 app.get('/jokebook/stats', (req, res) => {
   res.json({

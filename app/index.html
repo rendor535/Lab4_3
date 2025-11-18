@@ -1,13 +1,11 @@
 <!DOCTYPE html>
- <html>
-   <head>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>JokeBook</title>
+    <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="style.css">
-     <title>JokeBook</title>
-     <meta charset="utf-8">
-     <meta name="viewport" content="width=device-width">
-     <link rel="stylesheet" href="style.css"/>
-     <title>sigm.aa</title>   
-   </head>
+  </head>
   <body>
     <h1>Jokebook FE</h1>
 
@@ -29,6 +27,32 @@
       <p><strong>Joke:</strong> <span id="jokeText">-</span></p>
       <p><strong>Response:</strong> <span id="jokeResponse">-</span></p>
     </div>
+
+    <h2>Dodaj żart</h2>
+    <form id="addForm">
+      <div class="form-row">
+        <label for="addCategory">Kategoria:</label>
+        <select id="addCategory" required>
+          <option value="">-- wybierz kategorię --</option>
+          <option value="funnyJoke">funnyJoke</option>
+          <option value="lameJoke">lameJoke</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="addJoke">Tekst żartu:</label>
+        <input type="text" id="addJoke" required>
+      </div>
+
+      <div class="form-row">
+        <label for="addResponse">Odpowiedź:</label>
+        <input type="text" id="addResponse">
+      </div>
+
+      <button type="submit">Dodaj żart</button>
+      <p id="addStatus"></p>
+    </form>
+
     <script src="script.js" defer></script>
   </body>
- </html> 
+</html>

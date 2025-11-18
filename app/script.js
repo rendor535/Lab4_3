@@ -1,19 +1,30 @@
 const API_BASE = 'http://localhost:3000';
 
-const btnCategories = document.getElementById('btnCategories');
-const btnRandomJoke = document.getElementById('btnRandomJoke');
-const categoriesList = document.getElementById('categoriesList');
-const categorySelect = document.getElementById('categorySelect');
+const btnCategories    = document.getElementById('btnCategories');
+const btnRandomJoke    = document.getElementById('btnRandomJoke');
+const categoriesList   = document.getElementById('categoriesList');
+const categorySelect   = document.getElementById('categorySelect');
 
-const jokeCategoryEl = document.getElementById('jokeCategory');
-const jokeTextEl = document.getElementById('jokeText');
-const jokeResponseEl = document.getElementById('jokeResponse');
+const jokeCategoryEl   = document.getElementById('jokeCategory');
+const jokeTextEl       = document.getElementById('jokeText');
+const jokeResponseEl   = document.getElementById('jokeResponse');
+
+const addForm          = document.getElementById('addForm');
+const addCategorySelect= document.getElementById('addCategory');
+const addJokeInput     = document.getElementById('addJoke');
+const addResponseInput = document.getElementById('addResponse');
+const addStatusEl      = document.getElementById('addStatus');
 
 let categories = [];
 
 btnCategories.addEventListener('click', async () => {
   try {
     const res = await fetch(`${API_BASE}/jokebook/categories`);
+    if (!res.ok) {
+      console.error('Błąd HTTP przy pobieraniu kategorii:', res.status);
+      return;
+    }
+
     const data = await res.json();
     categories = data;
 
@@ -21,12 +32,10 @@ btnCategories.addEventListener('click', async () => {
     categorySelect.innerHTML = '<option value="">-- wybierz kategorię --</option>';
 
     data.forEach(cat => {
-      // lista UL
       const li = document.createElement('li');
       li.textContent = cat;
       categoriesList.appendChild(li);
 
-      // select
       const opt = document.createElement('option');
       opt.value = cat;
       opt.textContent = cat;
@@ -37,6 +46,7 @@ btnCategories.addEventListener('click', async () => {
   }
 });
 
+// Losowy żart z wybranej kategorii
 btnRandomJoke.addEventListener('click', async () => {
   const selectedCategory = categorySelect.value;
 
@@ -47,6 +57,14 @@ btnRandomJoke.addEventListener('click', async () => {
 
   try {
     const res = await fetch(`${API_BASE}/jokebook/joke/${selectedCategory}`);
+    if (!res.ok) {
+      console.error('Błąd HTTP przy pobieraniu żartu:', res.status);
+      jokeCategoryEl.textContent = selectedCategory;
+      jokeTextEl.textContent = 'Błąd pobierania żartu';
+      jokeResponseEl.textContent = '-';
+      return;
+    }
+
     const joke = await res.json();
 
     if (joke.error) {
@@ -63,3 +81,57 @@ btnRandomJoke.addEventListener('click', async () => {
     console.error('Error fetching joke:', err);
   }
 });
+
+// Dodawanie żartu
+if (addForm) {
+  addForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const category    = addCategorySelect.value;
+    const jokeText    = addJokeInput.value.trim();
+    const responseText= addResponseInput.value.trim();
+
+    addStatusEl.textContent = '';
+    addStatusEl.className = '';
+
+    if (!category || !jokeText) {
+      addStatusEl.textContent = 'Podaj kategorię i tekst żartu.';
+      addStatusEl.classList.add('status-error');
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/jokebook/joke/${category}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          joke: jokeText,
+          response: responseText   // backend wymaga stringa, "" też przejdzie
+        })
+      });
+
+      const data = await res.json().catch(() => null);
+
+      if (!res.ok) {
+        addStatusEl.textContent = data && data.error
+          ? `Błąd: ${data.error}`
+          : 'Wystąpił błąd przy dodawaniu żartu.';
+        addStatusEl.classList.add('status-error');
+        return;
+      }
+
+      // backend zwraca { status: 'ok' }
+      addStatusEl.textContent = 'Żart został dodany.';
+      addStatusEl.classList.add('status-ok');
+
+      addJokeInput.value = '';
+      addResponseInput.value = '';
+    } catch (err) {
+      console.error('Error adding joke:', err);
+      addStatusEl.textContent = 'Błąd sieci przy dodawaniu żartu.';
+      addStatusEl.classList.add('status-error');
+    }
+  });
+}
